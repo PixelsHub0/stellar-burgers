@@ -1,36 +1,48 @@
+// src/components/burger-constructor/burger-constructor.tsx
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
+import { useSelector, useDispatch } from '../../services/store';
+import { placeOrder, clearOrder } from '../../services/slices/order';
+import {
+  selectOrder,
+  selectOrderLoading
+} from '../../services/selectors/order';
+import {
+  selectBun,
+  selectFillings
+} from '../../services/selectors/constructor';
+import { clearConstructor } from '../../services/slices/constructor';
 import { BurgerConstructorUI } from '@ui';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const bun = useSelector(selectBun);
+  const fillings = useSelector(selectFillings);
 
-  const orderRequest = false;
+  const orderRequest = useSelector(selectOrderLoading);
+  const orderModalData = useSelector(selectOrder);
 
-  const orderModalData = null;
-
-  const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
-  };
-  const closeOrderModal = () => {};
+  const constructorItems = useMemo(
+    () => ({ bun, ingredients: fillings }),
+    [bun, fillings]
+  );
 
   const price = useMemo(
     () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
+      (bun ? bun.price * 2 : 0) + fillings.reduce((sum, v) => sum + v.price, 0),
+    [bun, fillings]
   );
 
-  return null;
+  const onOrderClick = () => {
+    if (!bun) return;
+    // собираем массив id-шек ингредиентов в нужном порядке
+    const ingredientIds = [bun._id, ...fillings.map((f) => f._id), bun._id];
+    dispatch(placeOrder(ingredientIds));
+  };
+
+  const closeOrderModal = () => {
+    dispatch(clearConstructor());
+    dispatch(clearOrder());
+  };
 
   return (
     <BurgerConstructorUI
