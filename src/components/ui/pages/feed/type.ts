@@ -1,6 +1,6 @@
 import { TOrder } from '@utils-types';
 
-export type FeedUIProps = {
+export interface FeedUIProps {
   orders: TOrder[];
   handleGetFeeds: () => void;
-};
+}
