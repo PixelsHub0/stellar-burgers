@@ -1,5 +1,3 @@
-// src/components/app/app.tsx
-
 import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
@@ -24,9 +22,6 @@ import {
 
 import { IngredientDetails, OrderInfo } from '@components';
 import { ProtectedRoute } from './ProtectedRoute';
-
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import '../../index.css';
 import styles from './app.module.css';
@@ -56,8 +51,7 @@ const App = () => {
       {loading ? (
         <Preloader />
       ) : (
-        // Оборачиваем всё, что связано с drag-and-drop, в DndProvider
-        <DndProvider backend={HTML5Backend}>
+        <>
           <AppHeader />
 
           <Routes location={background || location}>
@@ -140,7 +134,7 @@ const App = () => {
               />
             </Routes>
           )}
-        </DndProvider>
+        </>
       )}
     </div>
   );
