@@ -12,16 +12,10 @@ export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
 
   const handleLogout = () => {
-    dispatch(logoutUser())
-      // если используешь .unwrap(), то можно отлавливать ошибки:
-      // .unwrap()
-      // .then(() => navigate('/login', { replace: true }))
-      // .catch(err => console.error(err))
-      // но можно и просто:
-      .then(() => {
-        // после того как токены почистились в сторе и куки/LocalStorage
-        navigate('/login', { replace: true });
-      });
+    dispatch(logoutUser()).then(() => {
+      // после того как токены почистились в сторе и куки/LocalStorage
+      navigate('/login', { replace: true });
+    });
   };
 
   return <ProfileMenuUI handleLogout={handleLogout} pathname={pathname} />;

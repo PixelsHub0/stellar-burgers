@@ -40,7 +40,6 @@ const feedsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchFeeds.pending, (state) => {
-        console.log('[feeds] fetchFeeds.pending');
         state.loading = true;
         state.error = null;
       })
@@ -54,7 +53,6 @@ const feedsSlice = createSlice({
             totalToday: number;
           }>
         ) => {
-          console.log('[feeds] fetchFeeds.fulfilled payload:', action.payload);
           state.loading = false;
           state.orders = action.payload.orders;
           state.total = action.payload.total;
@@ -62,7 +60,6 @@ const feedsSlice = createSlice({
         }
       )
       .addCase(fetchFeeds.rejected, (state, action) => {
-        console.log('[feeds] fetchFeeds.rejected', action.payload);
         state.loading = false;
         state.error = action.payload || 'Ошибка при загрузке ленты';
       });

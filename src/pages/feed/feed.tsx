@@ -15,10 +15,6 @@ export const Feed: FC = () => {
   const orders = useSelector(selectFeedOrders);
   const loading = useSelector(selectFeedLoading);
 
-  console.log('[Feed] loading:', loading, 'orders:', orders);
-
-  console.log('[Feed]', { loading, ordersLength: orders.length, orders });
-
   // Загружаем ленту только если она ещё пустая
   useEffect(() => {
     if (orders.length === 0) {

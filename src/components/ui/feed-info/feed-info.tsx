@@ -6,11 +6,6 @@ import { FeedInfoUIProps, HalfColumnProps, TColumnProps } from './type';
 
 export const FeedInfoUI: FC<FeedInfoUIProps> = memo(
   ({ feed, readyOrders, pendingOrders }) => {
-    // Лог всех трёх пропсов при каждом рендере
-    console.log('[FeedInfoUI] feed:', feed);
-    console.log('[FeedInfoUI] readyOrders:', readyOrders);
-    console.log('[FeedInfoUI] pendingOrders:', pendingOrders);
-
     const { total, totalToday } = feed;
 
     return (
@@ -30,27 +25,22 @@ export const FeedInfoUI: FC<FeedInfoUIProps> = memo(
   }
 );
 
-const HalfColumn: FC<HalfColumnProps> = ({ orders, title, textColor }) => {
-  // Лог внутри каждой колонки, чтобы убедиться, что сюда доходят числа заказов
-  console.log(`[HalfColumn: ${title}] orders:`, orders);
-
-  return (
-    <div className={`pr-6 ${styles.column}`}>
-      <h3 className={`text text_type_main-medium ${styles.title}`}>{title}:</h3>
-      <ul className={`pt-6  ${styles.list}`}>
-        {orders.map((item, index) => (
-          <li
-            className={`text text_type_digits-default ${styles.list_item}`}
-            style={{ color: textColor === 'blue' ? '#00cccc' : '#F2F2F3' }}
-            key={index}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+const HalfColumn: FC<HalfColumnProps> = ({ orders, title, textColor }) => (
+  <div className={`pr-6 ${styles.column}`}>
+    <h3 className={`text text_type_main-medium ${styles.title}`}>{title}:</h3>
+    <ul className={`pt-6  ${styles.list}`}>
+      {orders.map((item, index) => (
+        <li
+          className={`text text_type_digits-default ${styles.list_item}`}
+          style={{ color: textColor === 'blue' ? '#00cccc' : '#F2F2F3' }}
+          key={index}
+        >
+          {item}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 const Column: FC<TColumnProps> = ({ title, content }) => (
   <>

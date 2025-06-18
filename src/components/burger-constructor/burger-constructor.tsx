@@ -11,6 +11,8 @@ import {
   selectFillings
 } from '../../services/selectors/constructor';
 import { clearConstructor } from '../../services/slices/constructor';
+import { selectIsAuth } from '../../services/selectors/auth';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { BurgerConstructorUI } from '@ui';
 
 export const BurgerConstructor: FC = () => {
@@ -20,6 +22,10 @@ export const BurgerConstructor: FC = () => {
 
   const orderRequest = useSelector(selectOrderLoading);
   const orderModalData = useSelector(selectOrder);
+
+  const isAuth = useSelector(selectIsAuth);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const constructorItems = useMemo(
     () => ({ bun, ingredients: fillings }),
@@ -33,8 +39,15 @@ export const BurgerConstructor: FC = () => {
   );
 
   const onOrderClick = () => {
-    if (!bun) return;
-    // собираем массив id-шек ингредиентов в нужном порядке
+    // если не залогинен — отправляем на логин
+    if (!isAuth) {
+      navigate('/login', { state: { from: location } });
+      return;
+    }
+    // если нет булки — ничего не делаем
+    if (!bun) {
+      return;
+    }
     const ingredientIds = [bun._id, ...fillings.map((f) => f._id), bun._id];
     dispatch(placeOrder(ingredientIds));
   };

@@ -20,12 +20,6 @@ export const FeedInfo: FC = memo(() => {
   const total = useSelector(selectFeedTotal);
   const totalToday = useSelector(selectFeedTotalToday);
 
-  // Вместо spread + Set используем Array.from
-  console.log(
-    '[FeedInfo] all orders statuses:',
-    Array.from(new Set(orders.map((o) => o.status)))
-  );
-
   const readyOrders = getOrderNumbers(orders, 'done'); // «Готовы»
 
   // «В работе» — всё, что не done

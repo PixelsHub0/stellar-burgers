@@ -12,7 +12,6 @@ import { OrderCardUI } from '../ui/order-card';
 const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
-  console.log('[OrderCard] rendering order:', order.number);
   const location = useLocation();
 
   // теперь мы действительно достаём все ингредиенты из стора
